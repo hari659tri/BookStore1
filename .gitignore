@@ -1,0 +1,13 @@
+bin/
+obj/
+.vs/
+.vscode/
+TestResults/
+*.user
+*.suo
+*.db
+*.log
+client/node_modules/
+client/dist/
+client/.env
+src/BookStore.Api/logs/

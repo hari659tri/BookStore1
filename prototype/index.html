@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookStore Prototype</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1f2937;
+      --muted: #667085;
+      --line: #d7dde8;
+      --paper: #ffffff;
+      --wash: #f5f7fb;
+      --brand: #2563eb;
+      --brand-dark: #1d4ed8;
+      --accent: #0f766e;
+      --danger: #b42318;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, Segoe UI, Arial, sans-serif;
+      background: var(--wash);
+      color: var(--ink);
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 28px;
+      background: rgba(255,255,255,.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(8px);
+    }
+    .brand { font-size: 22px; font-weight: 800; letter-spacing: 0; }
+    .brand span { color: var(--brand); }
+    nav { display: flex; gap: 10px; flex-wrap: wrap; }
+    button, input, select {
+      font: inherit;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      color: var(--ink);
+    }
+    button {
+      cursor: pointer;
+      padding: 10px 13px;
+      font-weight: 700;
+    }
+    button.primary { background: var(--brand); color: white; border-color: var(--brand); }
+    button.primary:hover { background: var(--brand-dark); }
+    button.ghost { background: transparent; }
+    main { max-width: 1180px; margin: 0 auto; padding: 28px; }
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 22px;
+      align-items: stretch;
+      margin-bottom: 22px;
+    }
+    .panel {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+    }
+    .hero h1 { margin: 0 0 10px; font-size: clamp(34px, 5vw, 60px); line-height: 1.02; letter-spacing: 0; }
+    .hero p { max-width: 620px; color: var(--muted); font-size: 17px; line-height: 1.55; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+    .stat { padding: 14px; border: 1px solid var(--line); border-radius: 8px; background: #fafcff; }
+    .stat strong { display:block; font-size: 24px; }
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 190px 160px;
+      gap: 12px;
+      margin: 18px 0;
+    }
+    input, select { width: 100%; padding: 11px 12px; }
+    .grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .book {
+      display: flex;
+      flex-direction: column;
+      min-height: 360px;
+      overflow: hidden;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .cover {
+      min-height: 155px;
+      padding: 18px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      font-size: 26px;
+      text-align: center;
+      background: linear-gradient(135deg, #2563eb, #0f766e);
+    }
+    .book:nth-child(2n) .cover { background: linear-gradient(135deg, #7c3aed, #db2777); }
+    .book:nth-child(3n) .cover { background: linear-gradient(135deg, #ea580c, #ca8a04); }
+    .book-body { display: flex; flex-direction: column; gap: 9px; padding: 15px; flex: 1; }
+    .book h3 { margin: 0; font-size: 18px; line-height: 1.25; }
+    .meta { color: var(--muted); font-size: 14px; }
+    .price { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .price strong { font-size: 20px; }
+    .layout { display: grid; grid-template-columns: 1fr 340px; gap: 18px; align-items: start; }
+    aside { position: sticky; top: 78px; }
+    .cart-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .cart-row small { color: var(--muted); }
+    .total { display: flex; justify-content: space-between; align-items: center; margin: 18px 0; font-size: 20px; font-weight: 900; }
+    .admin-list { display: grid; gap: 10px; }
+    .admin-item { display: flex; justify-content: space-between; gap: 14px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 8px; }
+    .badge { display: inline-flex; padding: 4px 8px; border-radius: 999px; background: #e0f2fe; color: #075985; font-size: 12px; font-weight: 800; }
+    .hidden { display: none !important; }
+    @media (max-width: 920px) {
+      .hero, .layout { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      aside { position: static; }
+      .filters { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      header, main { padding-left: 16px; padding-right: 16px; }
+      .grid, .stats { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Book<span>Store</span></div>
+    <nav>
+      <button class="ghost" onclick="showView('shop')">Shop</button>
+      <button class="ghost" onclick="showView('admin')">Admin</button>
+      <button class="primary" onclick="showView('cart')">Cart <span id="cartCount">0</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="panel">
+        <h1>Discover, manage, and order books in one place.</h1>
+        <p>A fast working prototype for a book store system with catalog browsing, cart checkout, and an admin inventory view.</p>
+        <div class="stats">
+          <div class="stat"><strong id="statBooks">0</strong><span>Books</span></div>
+          <div class="stat"><strong>4.8</strong><span>Avg rating</span></div>
+          <div class="stat"><strong>24h</strong><span>Dispatch</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Demo Login</h2>
+        <p class="meta">Use these prototype roles to preview the app flow.</p>
+        <p><span class="badge">Admin</span> admin@bookstore.local</p>
+        <p><span class="badge">Customer</span> customer@bookstore.local</p>
+        <button class="primary" onclick="alert('Prototype login successful')">Sign in</button>
+      </div>
+    </section>
+
+    <section id="shopView" class="layout">
+      <div>
+        <div class="filters">
+          <input id="search" placeholder="Search title or author" oninput="renderBooks()" />
+          <select id="category" onchange="renderBooks()"></select>
+          <select id="sort" onchange="renderBooks()">
+            <option value="featured">Featured</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+          </select>
+        </div>
+        <div id="bookGrid" class="grid"></div>
+      </div>
+      <aside class="panel">
+        <h2>Quick Cart</h2>
+        <div id="miniCart"></div>
+        <div class="total"><span>Total</span><span id="miniTotal">$0.00</span></div>
+        <button class="primary" style="width:100%" onclick="showView('cart')">Checkout</button>
+      </aside>
+    </section>
+
+    <section id="cartView" class="panel hidden">
+      <h2>Your Cart</h2>
+      <div id="cartRows"></div>
+      <div class="total"><span>Order Total</span><span id="cartTotal">$0.00</span></div>
+      <button class="primary" onclick="placeOrder()">Place Order</button>
+      <button class="ghost" onclick="showView('shop')">Continue Shopping</button>
+    </section>
+
+    <section id="adminView" class="panel hidden">
+      <h2>Admin Inventory</h2>
+      <p class="meta">Prototype management screen for stock, price, and order readiness.</p>
+      <div id="adminList" class="admin-list"></div>
+    </section>
+  </main>
+
+  <script>
+    const books = [
+      { id: 1, title: 'Clean Architecture', author: 'Robert C. Martin', category: 'Software', price: 38, stock: 12 },
+      { id: 2, title: 'Atomic Habits', author: 'James Clear', category: 'Self Help', price: 22, stock: 18 },
+      { id: 3, title: 'The Psychology of Money', author: 'Morgan Housel', category: 'Finance', price: 19, stock: 10 },
+      { id: 4, title: 'Designing Data-Intensive Apps', author: 'Martin Kleppmann', category: 'Software', price: 48, stock: 7 },
+      { id: 5, title: 'Ikigai', author: 'Hector Garcia', category: 'Lifestyle', price: 16, stock: 15 },
+      { id: 6, title: 'Deep Work', author: 'Cal Newport', category: 'Productivity', price: 24, stock: 11 },
+      { id: 7, title: 'The Alchemist', author: 'Paulo Coelho', category: 'Fiction', price: 14, stock: 20 },
+      { id: 8, title: 'Zero to One', author: 'Peter Thiel', category: 'Business', price: 21, stock: 9 }
+    ];
+    const cart = new Map();
+    const money = value => `$${value.toFixed(2)}`;
+
+    function setupCategories() {
+      const categories = ['All categories', ...new Set(books.map(book => book.category))];
+      category.innerHTML = categories.map(value => `<option>${value}</option>`).join('');
+      statBooks.textContent = books.length;
+    }
+
+    function renderBooks() {
+      const term = search.value.trim().toLowerCase();
+      const selected = category.value;
+      let visible = books.filter(book =>
+        (!term || `${book.title} ${book.author}`.toLowerCase().includes(term)) &&
+        (selected === 'All categories' || book.category === selected)
+      );
+      if (sort.value === 'low') visible.sort((a, b) => a.price - b.price);
+      if (sort.value === 'high') visible.sort((a, b) => b.price - a.price);
+      bookGrid.innerHTML = visible.map(book => `
+        <article class="book">
+          <div class="cover">${book.title}</div>
+          <div class="book-body">
+            <h3>${book.title}</h3>
+            <div class="meta">${book.author}</div>
+            <div><span class="badge">${book.category}</span></div>
+            <div class="meta">${book.stock} in stock</div>
+            <div class="price">
+              <strong>${money(book.price)}</strong>
+              <button class="primary" onclick="addToCart(${book.id})">Add</button>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function addToCart(id) {
+      cart.set(id, (cart.get(id) || 0) + 1);
+      renderCart();
+    }
+
+    function removeFromCart(id) {
+      const next = (cart.get(id) || 0) - 1;
+      next > 0 ? cart.set(id, next) : cart.delete(id);
+      renderCart();
+    }
+
+    function cartItems() {
+      return [...cart.entries()].map(([id, qty]) => ({ ...books.find(book => book.id === id), qty }));
+    }
+
+    function renderCart() {
+      const items = cartItems();
+      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      cartCount.textContent = items.reduce((sum, item) => sum + item.qty, 0);
+      miniTotal.textContent = cartTotal.textContent = money(total);
+      const rows = items.length ? items.map(item => `
+        <div class="cart-row">
+          <div><strong>${item.title}</strong><br><small>${item.qty} x ${money(item.price)}</small></div>
+          <button onclick="removeFromCart(${item.id})">Remove</button>
+        </div>
+      `).join('') : '<p class="meta">Your cart is empty.</p>';
+      miniCart.innerHTML = rows;
+      cartRows.innerHTML = rows;
+    }
+
+    function renderAdmin() {
+      adminList.innerHTML = books.map(book => `
+        <div class="admin-item">
+          <div><strong>${book.title}</strong><br><span class="meta">${book.author} · ${book.category}</span></div>
+          <div><span class="badge">${book.stock} stock</span> <strong>${money(book.price)}</strong></div>
+        </div>
+      `).join('');
+    }
+
+    function showView(view) {
+      shopView.classList.toggle('hidden', view !== 'shop');
+      cartView.classList.toggle('hidden', view !== 'cart');
+      adminView.classList.toggle('hidden', view !== 'admin');
+    }
+
+    function placeOrder() {
+      if (!cart.size) return alert('Add at least one book first.');
+      cart.clear();
+      renderCart();
+      alert('Order placed successfully in prototype mode.');
+      showView('shop');
+    }
+
+    setupCategories();
+    renderBooks();
+    renderCart();
+    renderAdmin();
+  </script>
+</body>
+</html>

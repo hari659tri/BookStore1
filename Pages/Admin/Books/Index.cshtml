@@ -1,0 +1,46 @@
+@page
+@model BookStore.Pages.Admin.Books.IndexModel
+@attribute [Microsoft.AspNetCore.Authorization.Authorize(Roles = "Admin")]
+
+@{
+    ViewData["Title"] = "Books Management";
+}
+
+<h2>Books Management</h2>
+
+<a class="btn btn-success mb-3" asp-page="Create">+ Add New Book</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var book in Model.Books)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.Price</td>
+                <td>
+                    <a class="btn btn-primary btn-sm"
+                       asp-page="Edit"
+                       asp-route-id="@book.Id">
+                        Edit
+                    </a>
+
+                    <a class="btn btn-danger btn-sm"
+                       asp-page="Delete"
+                       asp-route-id="@book.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

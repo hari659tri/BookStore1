@@ -1,0 +1,46 @@
+@page
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Admin Dashboard</h2>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>📚 Books</h5>
+                <p>Manage all books in store</p>
+                <a class="btn btn-primary" asp-page="/Admin/Books/Index">
+                    Manage Books
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>📂 Categories</h5>
+                <p>Manage book categories</p>
+                <a class="btn btn-success" asp-page="/Admin/Categories/Index">
+                    Manage Categories
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>🧾 Orders</h5>
+                <p>View all customer orders</p>
+                <a class="btn btn-warning" asp-page="/Admin/Orders/Index">
+                    View Orders
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
