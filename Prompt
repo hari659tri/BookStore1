@@ -1,0 +1,117 @@
+Act as a senior full-stack developer and software architect.
+
+I want to build a B2C e-commerce web application for selling clothes using:
+
+- Backend: ASP.NET Core MVC (.NET 7 or later)
+- Frontend: React.js integrated inside MVC (NOT separate project)
+- Database: SQL Server
+- Authentication: ASP.NET Identity
+
+Please guide me step-by-step to build a production-ready project.
+
+--------------------------------------------------
+
+PROJECT REQUIREMENTS:
+
+1. Core Features:
+- User Registration and Login (ASP.NET Identity)
+- Role-based Authorization (Admin and Customer)
+- Product Module:
+  - Add, Edit, Delete Products
+  - Categories (Men, Women, Kids)
+  - Properties: Name, Image, Price, Size, Stock
+- Product Listing Page (React UI)
+- Search and Filter functionality
+- Shopping Cart:
+  - Add to Cart
+  - Update Quantity
+  - Remove Items
+- Checkout System:
+  - Address form
+  - Payment Integration (Stripe/Razorpay test mode)
+- Order Management:
+  - Order History (User)
+  - Order Management (Admin)
+- Admin Dashboard:
+  - Manage Products
+  - Manage Users
+  - View Orders
+- Login / Logout
+
+--------------------------------------------------
+
+2. FRONTEND (React INSIDE MVC):
+- Integrate React app inside MVC project (wwwroot or ClientApp)
+- Use React for:
+  - Product Listing
+  - Cart Page
+  - Admin Dashboard
+- Use Axios/Fetch for API calls to MVC controllers
+- Use functional components and hooks
+- Optional: React Router
+
+--------------------------------------------------
+
+3. UI / UX:
+- Modern responsive UI (use Tailwind CSS or Bootstrap)
+- Clean clothing store design (like Myntra/Ajio)
+- Mobile-friendly layout
+- Product cards with images, price, add-to-cart button
+
+--------------------------------------------------
+
+4. BACKEND ARCHITECTURE:
+- Follow MVC pattern
+- Use:
+  - Controllers
+  - Services Layer
+  - Repository Pattern
+- Entity Framework Core for database
+- Clean folder structure
+
+--------------------------------------------------
+
+5. API DESIGN (INSIDE MVC):
+- Create APIs inside controllers returning JSON
+Example:
+GET /Product/GetProducts
+POST /Cart/AddToCart
+
+--------------------------------------------------
+
+6. SECURITY:
+- ASP.NET Identity authentication
+- Password hashing
+- Role-based authorization (Admin, Customer)
+
+--------------------------------------------------
+
+7. DELIVERABLES REQUIRED:
+
+Please provide:
+
+- Step-by-step setup guide (Visual Studio + React integration)
+- Complete project folder structure
+- Database schema (tables like Users, Products, Orders, Cart)
+- Sample code for:
+  - Authentication
+  - Product CRUD
+  - Cart functionality
+- How to integrate React with MVC Views
+- API endpoints list
+- Best practices
+
+--------------------------------------------------
+
+8. BONUS FEATURES:
+- Wishlist
+- Product reviews & ratings
+- Pagination / Lazy loading
+
+--------------------------------------------------
+
+IMPORTANT:
+- Keep explanation simple (beginner-friendly)
+- Provide code examples
+- Follow real-world best practices
+- Build step-by-step like a training guide
