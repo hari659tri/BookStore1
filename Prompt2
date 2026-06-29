@@ -1,0 +1,109 @@
+Act as a senior full-stack developer and software architect.
+
+I want to build a production-ready B2C e-commerce web application for selling clothes using the following architecture:
+
+--------------------------------------
+TECH STACK:
+
+Backend:
+- ASP.NET Core Web API (.NET 7 or later)
+- Entity Framework Core (Code First)
+- SQL Server
+- ASP.NET Identity (JWT Authentication)
+
+Frontend:
+- React.js (separate project)
+- Axios for API calls
+- React Hooks (useEffect, useState)
+- React Router
+- Tailwind CSS or Bootstrap
+
+--------------------------------------
+
+ARCHITECTURE REQUIREMENTS:
+
+- Follow Clean Architecture / Layered Architecture:
+  - Controllers (API layer)
+  - Services Layer (Business logic)
+  - Repository Layer (Data Access)
+- Use Dependency Injection
+- Use DTOs to transfer data
+- Use AutoMapper (optional but recommended)
+
+--------------------------------------
+
+FEATURES REQUIRED:
+
+1. Authentication & Authorization:
+- Register / Login using JWT
+- Role-based Authorization (Admin, Customer)
+
+2. Product Module:
+- Add / Edit / Delete products
+- Categories (Men, Women, Kids)
+- Fields: Name, Image URL, Price, Size, Stock
+
+3. Product Listing:
+- Pagination
+- Search
+- Filtering by Category, Price
+
+4. Shopping Cart:
+- Add to Cart
+- Update quantity
+- Remove item
+- Persist cart (DB)
+
+5. Checkout:
+- Address form
+- Payment integration (Stripe or Razorpay - test mode)
+
+6. Orders:
+- Place order
+- Order history (User)
+- Order management (Admin)
+
+7. Admin Panel:
+- Manage products
+- Manage users
+- View orders
+
+--------------------------------------
+
+FRONTEND REQUIREMENTS:
+
+- Use React for entire UI
+- Responsive UI like Myntra/Ajio
+- Pages:
+  - Home (Products)
+  - Product Details
+  - Cart
+  - Checkout
+  - Login/Register
+  - Admin Dashboard
+
+--------------------------------------
+
+DELIVERABLES REQUIRED:
+
+Provide step-by-step explanation with:
+
+1. Project setup (Backend + Frontend)
+2. Folder structure (backend & frontend)
+3. Database schema design
+4. API endpoints list
+5. Complete sample code for:
+   - Authentication (JWT + Identity)
+   - Product CRUD
+   - Cart
+6. React integration with APIs
+7. Best practices and production tips
+
+--------------------------------------
+
+IMPORTANT:
+
+- Keep explanation beginner-friendly
+- Provide clean and working code
+- Avoid errors in final setup
+- Build the project step-by-step like a training guide
